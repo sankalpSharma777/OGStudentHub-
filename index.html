@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101827">
+<title>OGStudentHub — Your student space</title>
+<style>
+:root{--bg:#0b1220;--panel:#121d30;--panel2:#18263d;--line:#263650;--text:#edf4ff;--muted:#9aabc4;--blue:#72a7ff;--cyan:#65e0d0;--pink:#c6a0ff;--danger:#ff8d9b;--shadow:0 14px 40px #0003}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 85% 0%,#1b3151 0,transparent 32%),var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}
+button,input,textarea,select{font:inherit}button{cursor:pointer}
+.wrap{max-width:1050px;margin:auto;padding:22px 16px 90px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}
+.brand{display:flex;align-items:center;gap:11px}.logo{width:44px;height:44px;border-radius:15px;background:linear-gradient(135deg,#72a7ff,#65e0d0);display:grid;place-items:center;color:#091323;font-weight:900;font-size:20px;box-shadow:0 8px 25px #65a7ff44}
+.brand h1{font-size:19px;margin:0;letter-spacing:.2px}.brand p{margin:3px 0 0;color:var(--muted);font-size:12px}
+.pill{border:1px solid var(--line);border-radius:99px;padding:8px 11px;color:var(--muted);font-size:12px}
+.hero{background:linear-gradient(120deg,#1d3558,#172b45 60%,#183d49);border:1px solid #365171;border-radius:25px;padding:24px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hero:after{content:"✦";position:absolute;right:28px;top:12px;font-size:100px;color:#ffffff12}
+.eyebrow{font-size:11px;letter-spacing:1.8px;color:#b9d3ff;text-transform:uppercase;font-weight:700}
+.hero h2{font-size:clamp(25px,5vw,36px);line-height:1.1;margin:10px 0}.hero p{color:#c1d0e4;margin:0;max-width:530px;font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px;max-width:560px}
+.stat{background:#ffffff12;border:1px solid #ffffff19;border-radius:15px;padding:12px}.stat strong{display:block;font-size:22px}.stat span{font-size:11px;color:#c1d0e4}
+.tabs{display:flex;gap:8px;overflow:auto;padding:18px 0 14px;scrollbar-width:none}.tabs button{white-space:nowrap;border:1px solid var(--line);background:var(--panel);color:var(--muted);padding:10px 14px;border-radius:12px;font-size:13px}.tabs button.active{background:#243d60;border-color:#5a8bd1;color:#fff}
+.section{display:none}.section.active{display:block}
+.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}
+.card{background:linear-gradient(160deg,#142137,#111b2d);border:1px solid var(--line);border-radius:20px;padding:17px;box-shadow:var(--shadow);margin-bottom:14px}
+.card h3{font-size:16px;margin:0 0 5px}.sub{color:var(--muted);font-size:12px;margin:0 0 14px}
+.row{display:flex;gap:8px;align-items:center}.row>*{min-width:0}
+input,textarea,select{width:100%;background:#0c1728;border:1px solid #2b3d58;border-radius:11px;color:var(--text);padding:11px 12px;outline:none}
+input:focus,textarea:focus,select:focus{border-color:var(--blue)}textarea{resize:vertical;min-height:95px}
+.btn{border:0;border-radius:11px;padding:11px 14px;background:linear-gradient(135deg,#79aaff,#5e8fe0);color:#071426;font-weight:750}
+.btn.secondary{background:#243650;color:#dceaff;border:1px solid #3a506e}.btn.small{padding:7px 10px;font-size:12px}
+.list{display:grid;gap:8px}.item{display:flex;align-items:flex-start;gap:10px;padding:11px;background:#0e192a;border:1px solid #263750;border-radius:13px}
+.item input[type=checkbox]{width:17px;height:17px;margin-top:2px;accent-color:#72a7ff}.item-main{flex:1}.item-title{font-size:13px;overflow-wrap:anywhere}.item-meta{font-size:11px;color:var(--muted);margin-top:3px}.done .item-title{text-decoration:line-through;color:#8291a8}
+.iconbtn{border:0;background:transparent;color:var(--muted);font-size:17px;padding:0 4px}
+.empty{color:var(--muted);font-size:13px;text-align:center;padding:20px 8px}
+.note{background:#101c2e;border:1px solid #293c58;border-radius:13px;padding:12px}.note h4{margin:0 0 5px;font-size:14px}.note p{white-space:pre-wrap;overflow-wrap:anywhere;color:#b8c6da;font-size:12px;margin:0}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:10px 0}.day{padding:9px 2px;border:1px solid var(--line);border-radius:10px;text-align:center;color:var(--muted);font-size:11px;background:#0e192a}.day.active{background:#29476d;border-color:#72a7ff;color:white}
+.timer{text-align:center;padding:15px 0}.clock{font-size:clamp(48px,12vw,70px);font-weight:750;letter-spacing:2px;font-variant-numeric:tabular-nums}.timer p{color:var(--muted);font-size:13px}
+footer{text-align:center;color:#71829b;font-size:11px;margin-top:20px}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#e7f0ff;color:#102039;padding:10px 15px;border-radius:12px;font-size:13px;font-weight:650;box-shadow:var(--shadow);display:none;z-index:10}
+@media(max-width:700px){.grid{grid-template-columns:1fr}.wrap{padding:16px 13px 85px}.hero{padding:20px}.stats{gap:7px}.stat{padding:10px}.stat strong{font-size:19px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand"><div class="logo">OG</div><div><h1>OGStudentHub</h1><p>Your space. Your pace. Your progress.</p></div></div>
+  <div class="pill" id="todayPill">Student mode ✦</div>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">STUDENT DASHBOARD</div>
+  <h2>Make today<br>count.</h2>
+  <p>Keep your homework, notes and study plan in one simple space. Small steps add up.</p>
+  <div class="stats">
+    <div class="stat"><strong id="taskCount">0</strong><span>Open tasks</span></div>
+    <div class="stat"><strong id="noteCount">0</strong><span>Saved notes</span></div>
+    <div class="stat"><strong id="doneCount">0</strong><span>Completed</span></div>
+  </div>
+</section>
+
+<nav class="tabs" aria-label="App sections">
+  <button class="active" data-tab="home">⌂ Home</button>
+  <button data-tab="tasks">✓ Homework</button>
+  <button data-tab="notes">▤ Notes</button>
+  <button data-tab="timetable">▦ Timetable</button>
+  <button data-tab="focus">◷ Focus</button>
+</nav>
+
+<section class="section active" id="home">
+ <div class="grid">
+  <div>
+   <div class="card"><h3>Today's focus</h3><p class="sub" id="dateLine">A fresh start begins here.</p><div id="homeTasks" class="list"></div></div>
+   <div class="card"><h3>Quick actions</h3><p class="sub">Jump straight into your study space.</p><div class="row" style="flex-wrap:wrap"><button class="btn small" data-go="tasks">＋ Add homework</button><button class="btn secondary small" data-go="notes">＋ Write a note</button><button class="btn secondary small" data-go="focus">Start focus</button></div></div>
+  </div>
+  <div>
+   <div class="card"><h3>A little reminder</h3><p class="sub">You don't need a perfect day. Just a useful next step.</p><div style="font-size:34px;margin:12px 0">🌱</div><p style="font-size:13px;color:#c0cee1;margin:0">Plan it. Do it. Tick it off. Repeat.</p></div>
+   <div class="card"><h3>App tip</h3><p class="sub">Your entries stay in this browser on this device. Keep a backup of important notes.</p></div>
+  </div>
+ </div>
+</section>
+
+<section class="section" id="tasks">
+ <div class="card">
+  <h3>Add homework or a task</h3><p class="sub">Keep each task short and clear.</p>
+  <form id="taskForm">
+   <div class="row" style="margin-bottom:8px"><input id="taskInput" placeholder="e.g. Maths exercise 3.2" maxlength="100" required><button class="btn">Add</button></div>
+   <div class="row"><select id="taskSubject"><option>Maths</option><option>Science</option><option>English</option><option>Social Science</option><option>Hindi</option><option>Other</option></select><input id="taskDue" type="date" aria-label="Due date"></div>
+  </form>
+ </div>
+ <div class="card"><h3>Your task list</h3><p class="sub">Tick a task when you've finished it.</p><div id="taskList" class="list"></div></div>
+</section>
+
+<section class="section" id="notes">
+ <div class="card">
+  <h3>Write a study note</h3><p class="sub">Save quick definitions, formulas or reminders.</p>
+  <form id="noteForm">
+   <input id="noteTitle" placeholder="Note title" maxlength="70" required style="margin-bottom:8px">
+   <textarea id="noteBody" placeholder="Write your note here..." maxlength="3000" required style="margin-bottom:8px"></textarea>
+   <button class="btn">Save note</button>
+  </form>
+ </div>
+ <div class="card"><h3>Saved notes</h3><p class="sub">Your personal study notebook.</p><div id="noteList" class="list"></div></div>
+</section>
+
+<section class="section" id="timetable">
+ <div class="card"><h3>Weekly timetable</h3><p class="sub">Choose a day to see or add your study plan.</p>
+  <div class="days" id="days"></div>
+  <form id="slotForm"><div class="row" style="margin-bottom:8px"><input id="slotTime" type="time" required><input id="slotSubject" placeholder="Subject / activity" maxlength="60" required></div><button class="btn">Add time slot</button></form>
+ </div>
+ <div class="card"><h3 id="dayHeading">Monday's plan</h3><div id="slotList" class="list"></div></div>
+</section>
+
+<section class="section" id="focus">
+ <div class="card">
+  <h3>Focus session</h3><p class="sub">Try 25 minutes of focused study, then take a break.</p>
+  <div class="timer"><div class="clock" id="clock">25:00</div><p id="timerStatus">Ready when you are.</p>
+   <div class="row" style="justify-content:center;flex-wrap:wrap"><button class="btn" id="timerStart">Start</button><button class="btn secondary" id="timerReset">Reset</button></div>
+  </div>
+ </div>
+ <div class="card"><h3>Focus tip</h3><p class="sub">Choose one small task before you start. Put distractions aside and take a short break when the timer ends.</p></div>
+</section>
+<footer>OGStudentHub v1.0 · Made for learning ✦</footer>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const $=id=>document.getElementById(id);
+const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem('ogsh_'+key))??fallback}catch{return fallback}};
+const save=(key,value)=>localStorage.setItem('ogsh_'+key,JSON.stringify(value));
+let tasks=read('tasks',[]),notes=read('notes',[]),slots=read('slots',{}),selectedDay=new Date().getDay();
+const dayNames=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+function toast(msg){$('toast').textContent=msg;$('toast').style.display='block';clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>$('toast').style.display='none',1900)}
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function go(tab){document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id===tab))}
+document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.tab)));
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+const now=new Date();$('todayPill').textContent=now.toLocaleDateString(undefined,{weekday:'short',day:'numeric',month:'short'});$('dateLine').textContent=now.toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+function renderTasks(){
+ const open=tasks.filter(t=>!t.done),done=tasks.filter(t=>t.done);$('taskCount').textContent=open.length;$('doneCount').textContent=done.length;
+ const markup=arr=>arr.length?arr.map(t=>`<div class="item ${t.done?'done':''}"><input type="checkbox" ${t.done?'checked':''} data-check="${t.id}"><div class="item-main"><div class="item-title">${escapeHTML(t.title)}</div><div class="item-meta">${escapeHTML(t.subject)}${t.due?' · Due '+escapeHTML(t.due):''}</div></div><button class="iconbtn" data-delete-task="${t.id}" aria-label="Delete task">×</button></div>`).join(''):'<div class="empty">Nothing here yet. Add your first task above.</div>';
+ $('taskList').innerHTML=markup(tasks);$('homeTasks').innerHTML=markup(open.slice(0,4));
+}
+$('taskForm').addEventListener('submit',e=>{e.preventDefault();tasks.unshift({id:Date.now(),title:$('taskInput').value.trim(),subject:$('taskSubject').value,due:$('taskDue').value,done:false});save('tasks',tasks);$('taskForm').reset();render();toast('Task added')});
+function renderNotes(){$('noteCount').textContent=notes.length;$('noteList').innerHTML=notes.length?notes.map(n=>`<div class="note"><div class="row" style="justify-content:space-between"><h4>${escapeHTML(n.title)}</h4><button class="iconbtn" data-delete-note="${n.id}" aria-label="Delete note">×</button></div><p>${escapeHTML(n.body)}</p></div>`).join(''):'<div class="empty">No notes yet. Save a formula or reminder.</div>'}
+$('noteForm').addEventListener('submit',e=>{e.preventDefault();notes.unshift({id:Date.now(),title:$('noteTitle').value.trim(),body:$('noteBody').value.trim()});save('notes',notes);$('noteForm').reset();render();toast('Note saved')});
+function renderDays(){$('days').innerHTML=dayNames.map((d,i)=>`<button class="day ${i===selectedDay?'active':''}" data-day="${i}">${d.slice(0,3)}</button>`).join('');$('dayHeading').textContent=dayNames[selectedDay]+"'s plan";const arr=slots[selectedDay]||[];$('slotList').innerHTML=arr.length?arr.slice().sort((a,b)=>a.time.localeCompare(b.time)).map(s=>`<div class="item"><div class="item-main"><div class="item-title">${escapeHTML(s.time)} · ${escapeHTML(s.subject)}</div></div><button class="iconbtn" data-delete-slot="${s.id}" aria-label="Delete time slot">×</button></div>`).join(''):'<div class="empty">No time slots yet. Add one above.</div>'}
+$('slotForm').addEventListener('submit',e=>{e.preventDefault();slots[selectedDay]??=[];slots[selectedDay].push({id:Date.now(),time:$('slotTime').value,subject:$('slotSubject').value.trim()});save('slots',slots);$('slotForm').reset();renderDays();toast('Time slot added')});
+document.addEventListener('click',e=>{
+ const check=e.target.closest('[data-check]');if(check){const t=tasks.find(x=>x.id==check.dataset.check);if(t){t.done=check.checked;save('tasks',tasks);render()}}
+ const dt=e.target.closest('[data-delete-task]');if(dt){tasks=tasks.filter(x=>x.id!=dt.dataset.deleteTask);save('tasks',tasks);render();toast('Task deleted')}
+ const dn=e.target.closest('[data-delete-note]');if(dn){notes=notes.filter(x=>x.id!=dn.dataset.deleteNote);save('notes',notes);render();toast('Note deleted')}
+ const dd=e.target.closest('[data-day]');if(dd){selectedDay=Number(dd.dataset.day);renderDays()}
+ const ds=e.target.closest('[data-delete-slot]');if(ds){slots[selectedDay]=(slots[selectedDay]||[]).filter(x=>x.id!=ds.dataset.deleteSlot);save('slots',slots);renderDays();toast('Time slot deleted')}
+});
+function render(){renderTasks();renderNotes();renderDays()}render();
+let remaining=1500,interval=null;
+function showClock(){$('clock').textContent=String(Math.floor(remaining/60)).padStart(2,'0')+':'+String(remaining%60).padStart(2,'0')}
+$('timerStart').addEventListener('click',()=>{if(interval){clearInterval(interval);interval=null;$('timerStart').textContent='Resume';$('timerStatus').textContent='Paused.';return}if(remaining<=0)remaining=1500;interval=setInterval(()=>{remaining--;showClock();if(remaining<=0){clearInterval(interval);interval=null;$('timerStart').textContent='Start again';$('timerStatus').textContent='Session complete. Take a short break!';toast('Focus session complete!')}},1000);$('timerStart').textContent='Pause';$('timerStatus').textContent='You are focusing. Keep going!'});
+$('timerReset').addEventListener('click',()=>{clearInterval(interval);interval=null;remaining=1500;showClock();$('timerStart').textContent='Start';$('timerStatus').textContent='Ready when you are.'});
+showClock();
+</script>
+</body>
+</html>
